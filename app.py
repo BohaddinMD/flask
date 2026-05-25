@@ -1,22 +1,22 @@
-from flask import Flask, Response
-import requests
+from flask import Flask, request
 
 app = Flask(__name__)
 
-ESP32_URL = "http://192.168.0.27:81/stream"
+latest_frame = None
 
 @app.route("/")
 def home():
     return "Flask server running"
 
 @app.route("/live")
-def video_feed():
-    r = requests.get(ESP32_URL, stream=True)
+def live():
+    return "Waiting for video"
 
-    return Response(
-        r.iter_content(chunk_size=1024),
-        content_type=r.headers["Content-Type"]
-    )
+@app.route("/upload", methods=["POST"])
+def upload():
+    global latest_frame
+    latest_frame = request.data
+    return "Frame received"
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0")
