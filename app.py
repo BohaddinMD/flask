@@ -3,8 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-# Replace with your ESP32-CAM local stream
-ESP32_URL = "http://192.168.1.100:81/stream"
+ESP32_URL = "http://192.168.0.27:81/stream"
 
 @app.route("/")
 def home():
